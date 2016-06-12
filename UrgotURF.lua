@@ -8,6 +8,8 @@ end
 
 if GetObjectName(GetMyHero()) ~= "Urgot" then return end
 
+require("OpenPredict")
+
 function AutoUpdate(data)
     if tonumber(data) > tonumber(ver) then
         PrintChat('<font color = "#00FFFF">New version found! ' .. data)

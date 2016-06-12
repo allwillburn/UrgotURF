@@ -39,7 +39,6 @@ UrgotMenu.URFMode:Boolean("E", "Auto E", true)
 UrgotMenu:SubMenu("LaneClear", "LaneClear")
 UrgotMenu.LaneClear:Boolean("Q", "Use Q", true)
 UrgotMenu.LaneClear:Boolean("E", "Use E", true)
-UrgotMenu.LaneClear:Slider("Mana", "if Mana % >", 30, 0, 80, 1)
 
 UrgotMenu:SubMenu("Harass", "Harass")
 UrgotMenu.Harass:Boolean("Q", "Use Q", true)
@@ -112,16 +111,21 @@ OnTick(function (myHero)
 
 	end
 
-      --KillSteal
-      if Mix:Mode() == "KillSteal" then
-         if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy,1000) and GetHP(enemy) < getdmg("Q",enemy) then  
-                            CastSkillShot(_Q, enemy)
-          end              
+        for _, enemy in pairs(GetEnemyHeroes()) do
+		
+		if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy, 1000) then
+			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, QDmg) then			
+					CastSkillShot(enemy, _Q)
+			
+			end
+		end
 
-	 if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy,900) and GetHP2(enemy) < getdmg("E",enemy) then
-                            CastTargetSpell(_E, enemy)
-	  end
+	        if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy, 900) then
+			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, EDmg) then
+				CastTargetSpell(enemy, _E)
+	                end
   
+                end
       end
 
       if Mix:Mode() == "LaneClear" then

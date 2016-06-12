@@ -112,36 +112,27 @@ OnTick(function (myHero)
 
 	end
 
-         --KILLSTEAL
-	 for _, enemy in pairs(GetEnemyHeroes()) do
+      --KillSteal
+      if Mix:Mode() == "KillSteal" then
+         if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy,1000) and GetHP(enemy) < getdmg("Q",enemy) then  
+                           Cast(_Q,enemy)
+          end              
 
-		 QPredEnemy = GetPredictionForPlayer(myHeroPos(), enemy, GetMoveSpeed(enemy), 1700, 250, 900, 50, true, true)
-
-                if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy, QRange) then
-			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, QDmg) then
-				if QPredEnemy.HitChance == 1 then
-					CastSkillShot(_Q, QPredEnemy.PredPos)
-				end
-			end
-		end
-
-                if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy, ERange) then
-			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, EDmg) then
-				CastSkillShot(enemy, _E)
-			end
-		end
-
-	end
+	 if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy,900) and GetHP2(enemy) < getdmg("E",enemy) then
+                            Cast(_E,enemy)
+	  end
+  
+      end
 
       if Mix:Mode() == "LaneClear" then
-      	for _,closeminion in pairs(minionManager.objects) do
+      	  for _,closeminion in pairs(minionManager.objects) do
 	        if UrgotMenu.LaneClear.Q:Value() and Ready(_Q) and ValidTarget(closeminion, 1000) then
 	        	CastSkillShot(_Q, closeminion)
 	        end
                 if UrgotMenu.LaneClear.E:Value() and Ready(_E) and ValidTarget(closeminion, 900) then
 	        	CastSkillShot(_E, closeminion)
 	        end
-      	end
+      	  end
       end
         --URFMode
         if UrgotMenu.URFMode.Q:Value() then        

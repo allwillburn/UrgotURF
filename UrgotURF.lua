@@ -115,11 +115,11 @@ OnTick(function (myHero)
       --KillSteal
       if Mix:Mode() == "KillSteal" then
          if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy,1000) and GetHP(enemy) < getdmg("Q",enemy) then  
-                           Cast(_Q,enemy)
+                            CastSkillShot(_Q, enemy)
           end              
 
 	 if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy,900) and GetHP2(enemy) < getdmg("E",enemy) then
-                            Cast(_E,enemy)
+                            CastTargetSpell(_E, enemy)
 	  end
   
       end

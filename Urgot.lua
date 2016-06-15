@@ -21,9 +21,6 @@ function AutoUpdate(data)
     end
 end
 
-BaseAD = GetBaseDamage(myHero)
-BonusAD = GetBonusDmg(myHero)
-
 local UrgotMenu = Menu("Urgot", "Urgot")
 
 UrgotMenu:SubMenu("Combo", "Combo")

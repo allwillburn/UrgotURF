@@ -9,6 +9,7 @@ end
 if GetObjectName(GetMyHero()) ~= "Urgot" then return end
 
 require("OpenPredict")
+require("DamageLib")
 
 function AutoUpdate(data)
     if tonumber(data) > tonumber(ver) then
@@ -20,6 +21,9 @@ function AutoUpdate(data)
     end
 end
 
+BaseAD = GetBaseDamage(myHero)
+BonusAD = GetBonusDmg(myHero)
+
 local UrgotMenu = Menu("Urgot", "Urgot")
 
 UrgotMenu:SubMenu("Combo", "Combo")
@@ -28,6 +32,7 @@ UrgotMenu.Combo:Boolean("Q", "Use Q in combo", true)
 UrgotMenu.Combo:Boolean("W", "Use W in combo", true)
 UrgotMenu.Combo:Boolean("E", "Use E in combo", true)
 UrgotMenu.Combo:Boolean("R", "Use R in combo", true)
+UrgotMenu.Combo:Boolean("AA", "Use AA in combo", true)
 
 UrgotMenu:SubMenu("URFMode", "URFMode")
 UrgotMenu.URFMode:Boolean("Level", "Auto level spells", true)
@@ -76,7 +81,8 @@ OnTick(function (myHero)
 		if Mix:Mode() == "Combo" then
             if UrgotMenu.Combo.Q:Value() and Ready(_Q) and ValidTarget(target, 1000) then
 				CastSkillShot(_Q, target)
-                        end	    
+                        end
+            	    
 	    if UrgotMenu.Combo.W:Value() and Ready(_W) then
 				CastSpell(_W)
 	                end
@@ -86,8 +92,12 @@ OnTick(function (myHero)
 	    
             if UrgotMenu.Combo.R:Value() and Ready(_R) and ValidTarget(target, 500) then
 				CastTargetSpell(target, _R)
+                        end
+
+            if UrgotMenu.Combo.AA:Value() and ValidTarget(target, 425) then
+                                AttackUnit(target)
 			end
-		end
+            end
 
          --AUTO IGNITE
 	for _, enemy in pairs(GetEnemyHeroes()) do
@@ -112,18 +122,14 @@ OnTick(function (myHero)
 	end
 
         for _, enemy in pairs(GetEnemyHeroes()) do
+                
+                if IsReady(_Q) and ValidTarget(enemy, 900) and UrgotMenu.KillSteal.Q:Value() and GetHP(enemy) < getdmg("Q",enemy) then
+		         CastSkillShot(_Q, enemy)
 		
-		if UrgotMenu.KillSteal.Q:Value() and Ready(_Q) and ValidTarget(enemy, 1000) then
-			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, QDmg) then			
-					CastSkillShot(enemy, _Q)
-			
-			end
-		end
+                end 
 
-	        if UrgotMenu.KillSteal.E:Value() and Ready(_E) and ValidTarget(enemy, 900) then
-			if GetCurrentHP(enemy) < CalcDamage(myHero, enemy, 0, EDmg) then
-				CastTargetSpell(enemy, _E)
-	                end
+                if IsReady(_E) and ValidTarget(enemy, 1000) and UrgotMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
+		         CastTargetSpell(_E, enemy)
   
                 end
       end
@@ -165,5 +171,5 @@ OnTick(function (myHero)
 	end
 end)
 
-print('<font color = "#01DF01"><b>UrgotURF</b> <font color = "#01DF01">by <font color = "#01DF01"><b>Allwillburn</b> <font color = "#01DF01">Loaded!')
+print('<font color = "#01DF01"><b>Urgot</b> <font color = "#01DF01">by <font color = "#01DF01"><b>Allwillburn</b> <font color = "#01DF01">Loaded!')
 

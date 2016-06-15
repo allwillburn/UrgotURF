@@ -32,7 +32,6 @@ UrgotMenu.Combo:Boolean("R", "Use R in combo", true)
 UrgotMenu.Combo:Boolean("AA", "Use AA in combo", true)
 
 UrgotMenu:SubMenu("URFMode", "URFMode")
-UrgotMenu.URFMode:Boolean("Level", "Auto level spells", true)
 UrgotMenu.URFMode:Boolean("Ghost", "Auto Ghost", true)
 UrgotMenu.URFMode:Boolean("Q", "Auto Q", true)
 UrgotMenu.URFMode:Boolean("W", "Auto W", true)
@@ -57,13 +56,7 @@ UrgotMenu.AutoIgnite:Boolean("Ignite", "Ignite if killable", true)
 
 OnTick(function (myHero)
 	local target = GetCurrentTarget()
-	--AUTO LEVEL UP
-	if UrgotMenu.URFMode.Level:Value() then
-			spellorder = {_Q, _W, _E, _Q, _W, _R, _Q, _W, _W, _Q, _R, _Q, _W, _E, _E, _R, _E, _E}
-			if GetLevelPoints(myHero) > 0 then
-				LevelSpell(spellorder[GetLevel(myHero) + 1 - GetLevelPoints(myHero)])
-			end
-	end
+	
         
         --Harass
                 if Mix:Mode() == "Harass" then

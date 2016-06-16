@@ -119,7 +119,7 @@ OnTick(function (myHero)
                 end 
 
                 if IsReady(_E) and ValidTarget(enemy, 1000) and UrgotMenu.KillSteal.E:Value() and GetHP(enemy) < getdmg("E",enemy) then
-		         CastTargetSpell(_E, enemy)
+		         CastSkillShot(_E, target.pos)
   
                 end
       end

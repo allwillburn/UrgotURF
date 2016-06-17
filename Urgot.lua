@@ -31,7 +31,6 @@ UrgotMenu.Combo:Boolean("Q", "Use Q in combo", true)
 UrgotMenu.Combo:Boolean("W", "Use W in combo", true)
 UrgotMenu.Combo:Boolean("E", "Use E in combo", true)
 UrgotMenu.Combo:Boolean("R", "Use R in combo", true)
-UrgotMenu.Combo:Boolean("AA", "Use AA in combo", true)
 
 UrgotMenu:SubMenu("URFMode", "URFMode")
 UrgotMenu.URFMode:Boolean("Level", "Auto level spells", true)
@@ -95,9 +94,6 @@ OnTick(function (myHero)
 				CastTargetSpell(target, _R)
                         end
 
-            if UrgotMenu.Combo.AA:Value() and ValidTarget(target, 425) then
-                                AttackUnit(target)
-			end
             end
 
          --AUTO IGNITE

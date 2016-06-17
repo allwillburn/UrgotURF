@@ -15,7 +15,7 @@ function AutoUpdate(data)
     if tonumber(data) > tonumber(ver) then
         PrintChat('<font color = "#00FFFF">New version found! ' .. data)
         PrintChat('<font color = "#00FFFF">Downloading update, please wait...')
-        DownloadFileAsync('https://raw.githubusercontent.com/allwillburn/UrgotURF/master/UrgotURF.lua', SCRIPT_PATH .. 'UrgotURF.lua', function() PrintChat('<font color = "#00FFFF">Update Complete, please 2x F6!') return end)
+        DownloadFileAsync('https://raw.githubusercontent.com/allwillburn/UrgotURF/master/UrgotURF.lua', SCRIPT_PATH .. 'Urgot.lua', function() PrintChat('<font color = "#00FFFF">Update Complete, please 2x F6!') return end)
     else
         PrintChat('<font color = "#00FFFF">No updates found!')
     end

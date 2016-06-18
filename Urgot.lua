@@ -15,14 +15,15 @@ function AutoUpdate(data)
     if tonumber(data) > tonumber(ver) then
         PrintChat('<font color = "#00FFFF">New version found! ' .. data)
         PrintChat('<font color = "#00FFFF">Downloading update, please wait...')
-        DownloadFileAsync('https://raw.githubusercontent.com/allwillburn/UrgotURF/master/UrgotURF.lua', SCRIPT_PATH .. 'Urgot.lua', function() PrintChat('<font color = "#00FFFF">Update Complete, please 2x F6!') return end)
+        DownloadFileAsync('https://raw.githubusercontent.com/allwillburn/UrgotURF/master/Urgot.lua', SCRIPT_PATH .. 'UrgotURF.lua', function() PrintChat('<font color = "#00FFFF">Update Complete, please 2x F6!') return end)
     else
         PrintChat('<font color = "#00FFFF">No updates found!')
     end
 end
 
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
-
+local skinMeta = {["Urgot"] = {"Classic", "Butcher Urgot", "Battlecast Urgot", "Giant Enemy Crabgot"}}
+local SetDCP, SkinChanger = 0
 local UrgotMenu = Menu("Urgot", "Urgot")
 
 UrgotMenu:SubMenu("Combo", "Combo")
@@ -54,7 +55,14 @@ UrgotMenu.KillSteal:Boolean("E", "KS w E", true)
 UrgotMenu:SubMenu("AutoIgnite", "AutoIgnite")
 UrgotMenu.AutoIgnite:Boolean("Ignite", "Ignite if killable", true)
 
+UrgotMenu:SubMenu("Drawings", "Drawings")
+UrgotMenu.Drawings:Boolean("DQ", "Draw Q Range", true)
+UrgotMenu.Drawings:Boolean("DE", "Draw E Range", true)
+UrgotMenu.Drawings:Boolean("DR", "Draw R Range", true)
 
+UrgotMenu:SubMenu("SkinChanger", "SkinChanger")
+UrgotMenu.SkinChanger:Boolean("Skin", "UseSkinChanger", true)
+UrgotMenu.SkinChanger:Slider("SelectedSkin", "Select A Skin:", 1, 0, 4, 1, function(SetDCP) HeroSkinChanger(myHero, SetDCP)  end, true)
 
 OnTick(function (myHero)
 	local target = GetCurrentTarget()
@@ -167,6 +175,32 @@ OnTick(function (myHero)
 		end
 	end
 end)
+
+OnDraw(function (myHero)
+        
+         if UrgotMenu.Drawings.DQ:Value() then
+		DrawCircle(GetOrigin(myHero), 1000, 0, 200, GoS.Red)
+	end
+
+	if UrgotMenu.Drawings.DE:Value() then
+		DrawCircle(GetOrigin(myHero), 900, 0, 200, GoS.Blue)
+	end
+
+	if UrgotMenu.Drawings.DR:Value() then
+		DrawCircle(GetOrigin(myHero), 500, 0, 200, GoS.Green)
+	end
+
+end)
+
+local function SkinChanger()
+	if UrgotMenu.SkinChanger.UseSkinChanger:Value() then
+		if SetDCP >= 0  and SetDCP ~= GlobalSkin then
+			HeroSkinChanger(myHero, SetDCP)
+			GlobalSkin = SetDCP
+		end
+        end
+end
+
 
 print('<font color = "#01DF01"><b>Urgot</b> <font color = "#01DF01">by <font color = "#01DF01"><b>Allwillburn</b> <font color = "#01DF01">Loaded!')
 

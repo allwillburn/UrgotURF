@@ -24,11 +24,14 @@ end
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
 local skinMeta = {["Urgot"] = {"Classic", "Butcher Urgot", "Battlecast Urgot", "Giant Enemy Crabgot"}}
 local SetDCP, SkinChanger = 0
+local UrgotQ = {delay = .5, range = 1000, width = 80, speed = 1600}
+
 local UrgotMenu = Menu("Urgot", "Urgot")
 
 UrgotMenu:SubMenu("Combo", "Combo")
 
 UrgotMenu.Combo:Boolean("Q", "Use Q in combo", true)
+UrgotMenu.Combo:Slider("Qpred", "Q Hit Chance", 3,0,10,1)
 UrgotMenu.Combo:Boolean("W", "Use W in combo", true)
 UrgotMenu.Combo:Boolean("E", "Use E in combo", true)
 UrgotMenu.Combo:Boolean("R", "Use R in combo", true)
@@ -79,8 +82,11 @@ OnTick(function (myHero)
         --Harass
                 if Mix:Mode() == "Harass" then
             if UrgotMenu.Harass.Q:Value() and Ready(_Q) and ValidTarget(target, 1000) then
-				CastSkillShot(_Q, target)
-                        end
+		local QPred = GetPrediction(target,UrgotQ)
+                       if QPred.hitChance > (UrgotMenu.Combo.Qpred:Value() * 0.1) and not QPred:mCollision(1) then
+                                 CastSkillShot(_Q,QPred.castPos)
+                       end		
+                 end
             if UrgotMenu.Harass.E:Value() and Ready(_E) and ValidTarget(target, 900) then
 				CastSkillShot(_E, target.pos)
                         end

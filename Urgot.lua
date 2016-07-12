@@ -1,6 +1,5 @@
 if FileExist(COMMON_PATH.."MixLib.lua") then
  require('MixLib')
- LoadMixLib()
 else
  PrintChat("MixLib not found. Please wait for download.")
  DownloadFileAsync("https://raw.githubusercontent.com/VTNEETS/NEET-Scripts/master/MixLib.lua", COMMON_PATH.."MixLib.lua", function() Print("Update Complete, please 2x F6!") return end)

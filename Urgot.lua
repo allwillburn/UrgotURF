@@ -1,5 +1,6 @@
 if FileExist(COMMON_PATH.."MixLib.lua") then
  require('MixLib')
+ LoadMixLib()
 else
  PrintChat("MixLib not found. Please wait for download.")
  DownloadFileAsync("https://raw.githubusercontent.com/VTNEETS/NEET-Scripts/master/MixLib.lua", COMMON_PATH.."MixLib.lua", function() Print("Update Complete, please 2x F6!") return end)
@@ -12,13 +13,14 @@ require("DamageLib")
 
 function AutoUpdate(data)
     if tonumber(data) > tonumber(ver) then
-        PrintChat('<font color = "#00FFFF">New version found! ' .. data)
-        PrintChat('<font color = "#00FFFF">Downloading update, please wait...')
-        DownloadFileAsync('https://raw.githubusercontent.com/allwillburn/UrgotURF/master/Urgot.lua', SCRIPT_PATH .. 'Urgot.lua', function() PrintChat('<font color = "#00FFFF">Update Complete, please 2x F6!') return end)
-    else
-        PrintChat('<font color = "#00FFFF">No updates found!')
+        print("New version found! " .. data)
+        print("Downloading update, please wait...")
+        DownloadFileAsync("https://raw.githubusercontent.com/allwillburn/UrgotURF/master/Urgot.lua", SCRIPT_PATH .. "Urgot.lua", function() print("Update Complete, please 2x F6!") return end)
     end
 end
+
+GetWebResultAsync("https://raw.githubusercontent.com/allwillburn/UrgotURF/master/Urgot.version", AutoUpdate)
+
 
 GetLevelPoints = function(unit) return GetLevel(unit) - (GetCastLevel(unit,0)+GetCastLevel(unit,1)+GetCastLevel(unit,2)+GetCastLevel(unit,3)) end
 local skinMeta = {["Urgot"] = {"Classic", "Butcher Urgot", "Battlecast Urgot", "Giant Enemy Crabgot"}}
